@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackpace - Learn Hacking Skills</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background: linear-gradient(45deg, #000000, #001f00);
+            color: #00ff00;
+            overflow-x: hidden;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            color: #00ff00;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2em;
+        }
+
+        .course-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .course-box {
+            background: rgba(0, 30, 0, 0.8);
+            border: 1px solid #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .enroll-btn {
+            background: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .enroll-btn:hover {
+            background: #00ff00;
+            color: #000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #00ff00;
+            margin-top: 50px;
+        }
+
+        .social-links a {
+            color: #00ff00;
+            margin: 0 10px;
+            font-size: 1.5em;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
+    <header>
+        <div class="logo">HACKPACE</div>
+        <nav>
+            <a href="#c">C Programming</a>
+            <a href="#linux">Linux Admin</a>
+            <a href="#python">Python</a>
+            <a href="#bash">Bash Scripting</a>
+        </nav>
+    </header>
+
+    <main class="course-container">
+        <!-- Course sections -->
+        <div class="course-box" id="c">
+            <h2>C Programming</h2>
+            <ul>
+                <li>Basic Syntax</li>
+                <li>Pointers & Memory</li>
+                <li>Data Structures</li>
+                <li>File Handling</li>
+            </ul>
+            <button class="enroll-btn" onclick="enroll('C Programming')">Enroll Now</button>
+        </div>
+
+        <div class="course-box" id="linux">
+            <h2>Linux Administration</h2>
+            <ul>
+                <li>User Management</li>
+                <li>Networking</li>
+                <li>Security</li>
+                <li>Server Configuration</li>
+            </ul>
+            <button class="enroll-btn" onclick="enroll('Linux Administration')">Enroll Now</button>
+        </div>
+
+        <div class="course-box" id="python">
+            <h2>Python Programming</h2>
+            <ul>
+                <li>Syntax Basics</li>
+                <li>Web Scraping</li>
+                <li>Automation</li>
+                <li>Django Framework</li>
+            </ul>
+            <button class="enroll-btn" onclick="enroll('Python Programming')">Enroll Now</button>
+        </div>
+
+        <div class="course-box" id="bash">
+            <h2>Bash Scripting</h2>
+            <ul>
+                <li>Basic Commands</li>
+                <li>Automation</li>
+                <li>System Monitoring</li>
+                <li>Advanced Scripting</li>
+            </ul>
+            <button class="enroll-btn" onclick="enroll('Bash Scripting')">Enroll Now</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-x-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Matrix background effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = '01';
+        const fontSize = 14;
+        const columns = canvas.width/fontSize;
+        const drops = [];
+
+        for(let x = 0; x < columns; x++) drops[x] = 1;
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for(let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+                
+                if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) 
+                    drops[i] = 0;
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 50);
+
+        // Enrollment function
+        function enroll(course) {
+            const message = `Hello! I want to enroll in ${course} course.`;
+            const whatsappUrl = `https://wa.me/YOUR_PHONE_NUMBER?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Update nav links text
+        document.querySelectorAll('nav a').forEach(link => {
+            link.textContent = link.textContent.replace('Scripting', ' Scripting');
+        });
+    </script>
+</body>
+</html>
